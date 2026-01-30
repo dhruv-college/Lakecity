@@ -1,0 +1,41 @@
+import { Toaster } from "@/components/ui/toaster";
+import { Toaster as Sonner } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { LanguageProvider } from "@/context/LanguageContext";
+import { ProductProvider } from "@/context/ProductContext";
+import Index from "./pages/Index";
+import ProductFeed from "./pages/ProductFeed";
+import ProductDetail from "./pages/ProductDetail";
+import ArtisanDashboard from "./pages/ArtisanDashboard";
+import MapPage from "./pages/MapPage";
+import NotFound from "./pages/NotFound";
+
+const queryClient = new QueryClient();
+
+const App = () => (
+  <QueryClientProvider client={queryClient}>
+    <LanguageProvider>
+      <ProductProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/products" element={<ProductFeed />} />
+              <Route path="/product/:id" element={<ProductDetail />} />
+              <Route path="/dashboard" element={<ArtisanDashboard />} />
+              <Route path="/map" element={<MapPage />} />
+              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </TooltipProvider>
+      </ProductProvider>
+    </LanguageProvider>
+  </QueryClientProvider>
+);
+
+export default App;
